@@ -1,0 +1,12 @@
+{
+  "name": "my_bookshelf",
+  "displayName": "my_bookshelf",
+  "expo": {
+    "name": "my_bookshelf",
+    "slug": "my_bookshelf",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
