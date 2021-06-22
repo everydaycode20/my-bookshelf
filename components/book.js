@@ -37,13 +37,11 @@ export default function Book({route, navigation}) {
     const [showIcon, setShowIcon] = useState(false);
 
     useEffect(() => {
-        console.log(data, "DATA BOOK");
         setIdBtn(data.stat);
         setPages(data.pagesRead);
         if (data.isFavorite) {
             setFav(true);
         }
-        console.log(data.current);
         if (data.status) {
             const {pageCount, pagesRead} = data;
             setPagesRead(Math.floor((pagesRead/pageCount)*100));
@@ -52,12 +50,11 @@ export default function Book({route, navigation}) {
     
     function checkBtn(index) {
         setIdBtn(index);
-        console.log(id, "ID DE SIEMPRE");
         const {authors, image, pageCount, title, description, categories } = data;
 
         try {
             if (index === 0) {
-                console.log(id);
+                
                 setIsNewBook(true);
                 setPagesRead(100);
 
@@ -123,7 +120,6 @@ export default function Book({route, navigation}) {
                 });
             }
         } catch (error) {
-            console.log(error, "ERROR");
             navigation.navigate({name: data.current, params: {message: "error"}, merge: true});
         }
     }
@@ -183,7 +179,7 @@ export default function Book({route, navigation}) {
         let currentWeek = getWeek(new Date(Date.now()));
         
         let pagesReadDay = pages - pagesRead;
-        console.log(pagesReadDay);
+        
         setPagesRead(Math.floor((pages/pageCount)*100));
 
         const {title} = data;
@@ -217,7 +213,7 @@ export default function Book({route, navigation}) {
 
     function deleteBook() {
         const {title} = data;
-        console.log(idBtn, "ID");
+        
         if (idBtn === 0) {
             firestore().collection("users").doc(user.uid).update({
                 [`books.read.${title}`]: firebase.firestore.FieldValue.delete(),
@@ -254,9 +250,9 @@ export default function Book({route, navigation}) {
         <View style={{flex: 1, backgroundColor: "white", alignItems: "center"}}>
             <View style={{ width: "85%", }}>
                 <FlatList keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} data={[data]} renderItem={(renderItem, index) => {
-                    console.log(renderItem);
+                    
                     const {image, title, authors, description, pageCount} = data;
-                    console.log(typeof pageCount, "TYPEOF");
+                    
                     return(
                         <View >
                             <Ionicons onPress={() => Back()} name="arrow-back" size={35} color="black"/>

@@ -13,14 +13,12 @@ export default function SearchBar({tab}){
     const [showResults, setShowResults] = useState(false);
 
     function textInput(text) {
-        // setText(t);
         if (text !== "") {
             setText(text);
             search(text);
         }
         else{
             setShowResults(false);
-            // console.log("WMPTRY");
             setResults([]);
             setText("");
         }

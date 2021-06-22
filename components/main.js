@@ -27,7 +27,7 @@ export default function Main({readingBooks, refreshing, onRefresh, isLoading, ro
     }, [routeId]);
 
     function getBook(id) {
-        console.log(id);
+        
         firestore().collection("users").doc(user.uid).get().then(documentSnapshot => {
             if (documentSnapshot.exists) {  
 

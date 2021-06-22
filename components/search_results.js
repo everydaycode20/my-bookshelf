@@ -1,11 +1,10 @@
-import React, {useContext, useState} from 'react';
-import { StyleSheet, Text, View, TextInput, StatusBar, Image, FlatList, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import React, {useContext,} from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {BookContext} from "./utils/context_book";
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function SearchResult({results, setShowResults, tab, setText}) {
-    // console.log(tab, "TAB");
+    
     const navigation = useNavigation();
 
     const {setId} = useContext(BookContext);
@@ -18,14 +17,13 @@ export default function SearchResult({results, setShowResults, tab, setText}) {
     }   
 
     function getBook(id) {
-        console.log(id);
+        
         setId(id);
         setShowResults(false);
         setText("");
         fetch(`https://www.googleapis.com/books/v1/volumes/${id}`).then(res => res.json()).then(data => {
-            console.log(data.volumeInfo, "ITEMS BOOK");
             const {authors, imageLinks, pageCount, title, categories, description} = data.volumeInfo;
-            console.log(authors, "authors", imageLinks, "imageLinks", pageCount, "pageCount", title, "title", categories, "categories",description, "description");
+
             let page = pageCount;
             let img = imageLinks;
             
@@ -42,7 +40,6 @@ export default function SearchResult({results, setShowResults, tab, setText}) {
             }
 
             if (authors === undefined || description === undefined || pageCount === undefined || title === undefined) {
-                console.log("ERROR");
                 navigation.navigate({name: tab, params: {message: "error", id: Date.now()}, merge: true});
             }
             else{

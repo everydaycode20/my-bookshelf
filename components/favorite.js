@@ -11,8 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 export default function Favorite({refreshing, isLoading, favorite, onRefresh, route, routeId}){
     
     const {user,} = useContext(UserContext);
-    console.log(route, "ROUTE");
-    const {newBook} = useContext(NewBookContext);
 
     const {setId} = useContext(BookContext);
 

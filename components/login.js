@@ -1,18 +1,9 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { StyleSheet, Text, View, StatusBar, TouchableWithoutFeedback, Image } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Login({ route}) {
-    
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [userInfo, setUserInfo] = useState([]);
-    
-    // const {login, setLogin} = useContext(AuthContext);
-
-    // const {setUser} = useContext(UserContext);
 
     const navigation = useNavigation();
 

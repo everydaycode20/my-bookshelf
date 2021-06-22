@@ -80,7 +80,7 @@ export default function StackBookshelf() {
     const StackBookshelf = createStackNavigator();
 
     const [id, setId] = useState("");
-    // console.log(id, "ID BOOK CONTEXT");
+    
     return (
         <BookContext.Provider value={{id, setId}}>
             <StackBookshelf.Navigator screenOptions={{headerShown: false}}>

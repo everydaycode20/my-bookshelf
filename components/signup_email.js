@@ -24,7 +24,7 @@ export default function SignupEmail() {
             .createUserWithEmailAndPassword(email, password)
             .then(userCredential => {
                 console.log(userCredential);
-                console.log('User account created & signed in!');
+
             })
             .catch(error => {
                 setEmailInUse(false);
@@ -52,19 +52,18 @@ export default function SignupEmail() {
         const reg = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{1,}$/;
 
         if (reg.test(text.toLowerCase())) {
-            console.log("si");
+            
             setIsEmailValid(true);
             setEmail(text.toLowerCase());
         }
         else{
-            console.log("no");
+            
             setIsEmailValid(false);
         }
     }
 
     function testPassword(text) {
         setPassword(text);
-        console.log(text);
     }
 
     return (

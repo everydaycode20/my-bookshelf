@@ -35,6 +35,7 @@ export default function App() {
 
     GoogleSignin.configure({
       scopes: ["email"],
+      webClientId: '',
     });
 
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -48,7 +49,7 @@ export default function App() {
 
   function onAuthStateChanged(user) {
     setUser(user)
-    console.log(user);
+
     if (user) {
       setLogin(true);
     }
@@ -58,8 +59,6 @@ export default function App() {
     try {
       await GoogleSignin.hasPlayServices();
       const {accessToken, idToken} = await GoogleSignin.signIn();
-
-      // setLogin(true);
 
       const credential = auth.GoogleAuthProvider.credential(idToken, accessToken);
 

@@ -30,7 +30,7 @@ function CompMain({route}) {
     const [refreshing, setRefreshing] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
-
+    
     useEffect(() => {
         getUserData();
         setTab("Main");
@@ -52,7 +52,7 @@ function CompMain({route}) {
             firestore().collection("users").doc(user.uid).get().then(documentSnapshot => {
                 
                 if (documentSnapshot.exists) {
-                    console.log("TRUE");
+                    
                     setUserExists(true);
                     const arr = [];
 
@@ -115,7 +115,7 @@ function CompMain({route}) {
                 }
                 else{
                     setUserExists(false);
-                    console.log("FALSE");
+                    
                     firestore().collection("users").doc(user.uid).set({
                         user: user.email,
                         years: {

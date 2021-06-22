@@ -41,18 +41,15 @@ export default function SigninEmail() {
             .signInWithEmailAndPassword(email, password)
             .then(userCredential => {
                 console.log(userCredential);
-                console.log('User signed in!');
             })
             .catch(error => {
             
                 if (error.code === 'auth/invalid-email') {
-                    console.log('That email address is invalid!');
                     setIsUser(true);
                     setIsValidEmail(false)
                 }
 
                 if (error.code === "auth/user-not-found") {
-                    console.log("user not found");
                     setIsUser(false);
                     setIsValidEmail(true);
                 }
