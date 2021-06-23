@@ -20,9 +20,9 @@ A mobile app to track your reading progress made with React Native, Firebase and
     - Read
     - Wishlist
 
-- Suggestions
+<!-- - Suggestions
     - categories
-    - books
+    - books -->
 
 - PageGoal
 
