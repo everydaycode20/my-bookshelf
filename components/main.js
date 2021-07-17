@@ -1,11 +1,10 @@
 import React, {useEffect, useContext, useState} from 'react';
-import { StyleSheet, Text, View, FlatList, ScrollView, Image, TouchableOpacity, RefreshControl, Modal, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ScrollView, Image, TouchableOpacity, RefreshControl,  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ModalError from './modal_error';
 
 import {UserContext} from "./utils/user_context";
 import {BookContext} from "./utils/context_book";
-import { NewBookContext } from './utils/context_newBook';
 
 import firestore from "@react-native-firebase/firestore";
 
@@ -30,7 +29,7 @@ export default function Main({readingBooks, refreshing, onRefresh, isLoading, ro
         
         firestore().collection("users").doc(user.uid).get().then(documentSnapshot => {
             if (documentSnapshot.exists) {  
-
+                
                 let objBooks = documentSnapshot.data().books;
 
                 for (const key in objBooks) {

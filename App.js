@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,6 +19,7 @@ import SignupEmail from './components/signup_email';
 import StackMain from "./components/stack_Main";
 import StackFavorite from "./components/stack_Favorite";
 import StackBookshelf from "./components/stack_Bookshelf";
+import StackProfile from './components/stack_profile';
 import SigninEmail from './components/signin_email';
 
 export default function App() {
@@ -31,20 +33,25 @@ export default function App() {
   const [newBook, setNewBook] = useState({main: "", bookshelf: "all", favorite: "", profile: ""});
 
   useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+    });
     const ac = new AbortController();
 
     GoogleSignin.configure({
       scopes: ["email"],
-      webClientId: '',
+      webClientId: '99853162195-ptu9icemdkvmp9lq9e74kifj5ja29eds.apps.googleusercontent.com',
     });
 
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
 
     return () => {
+      unsubscribe();
       subscriber;
       ac.abort();
     };
-
+    
   }, []);
 
   function onAuthStateChanged(user) {
@@ -76,7 +83,7 @@ export default function App() {
 
   const StackLogin = createStackNavigator();
 
-  if (login === false) {
+  if (login === false && login !== null) {
     return(
       <View style={{flex: 1}}>
       <StatusBar barStyle = "dark-content" backgroundColor="white"/>
@@ -91,7 +98,7 @@ export default function App() {
     )
   }
 
-  if (login === true) {
+  if (login === true && login !== null) {
     return (
       <NewBookContext.Provider value={{newBook, setNewBook}}>
       <AuthContext.Provider value={{login, setLogin}}>
@@ -125,7 +132,7 @@ export default function App() {
               <Tab.Screen name="Home" component={StackMain} />
               <Tab.Screen name="Bookshelf" component={StackBookshelf} />
               <Tab.Screen name="Favorite" component={StackFavorite} />
-              <Tab.Screen name="Profile" component={Profile} />
+              <Tab.Screen name="Profile" component={StackProfile} />
             </Tab.Navigator>
           </NavigationContainer>
         </UserContext.Provider>

@@ -3,7 +3,7 @@ import { View, } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {BookContext} from "./utils/context_book";
 import {UserContext} from "./utils/user_context";
-import { getWeek } from './utils/get_date';
+import { getWeek, getTotalDaysOfYear, getTotalPagesInYear } from './utils/get_date';
 
 import Searchbar from "./searchbar";
 import Main from "./main";
@@ -55,7 +55,7 @@ function CompMain({route}) {
                     
                     setUserExists(true);
                     const arr = [];
-
+                    
                     const obj = documentSnapshot.data().books.currentlyReading;
 
                     const objRead = documentSnapshot.data().books.read;
@@ -86,7 +86,7 @@ function CompMain({route}) {
                     }
 
                     const years = documentSnapshot.data().years;
-
+                    
                     for (const key in years) {
                         if (parseInt(key) === currentYear) {
                             let weekObj = years[key];
@@ -114,33 +114,45 @@ function CompMain({route}) {
                     setIsLoading(false);
                 }
                 else{
+                    
                     setUserExists(false);
                     
-                    firestore().collection("users").doc(user.uid).set({
-                        user: user.email,
-                        years: {
-                            [currentYear]: {
-                                [week]: ["0","0","0","0","0","0",'0'],
-                            },
-                        },
-                        books: {
-                            currentlyReading: {},
-                            favorite: {},
-                            read: {},
-                            wishlist: {},
-                        },
-                        suggestions: {
-                            categories: [],
-                        },
-                        pageGoal: "100",
-                        authType: "",
-                    });
-                    setIsLoading(false);
+                    if (week > 1) {
+                        makeWeeks(week).then(obj => {
+                            firestore().collection("users").doc(user.uid).set({
+                                user: user.email,
+                                years: {
+                                    [currentYear]: {
+                                        ...obj,
+                                        pagesRead: 0
+                                    },
+                                },
+                                books: {
+                                    currentlyReading: {},
+                                    favorite: {},
+                                    read: {},
+                                    wishlist: {},
+                                },
+                                suggestions: {
+                                    categories: [],
+                                },
+                                pageGoal: "100",
+                                authType: "",
+                            });
+                            setIsLoading(false);
+                        });
+                    }
                 }
-                
             });
         }
         setRefreshing(false);
+    }
+
+    function makeWeeks() {
+        return new Promise(resolve => {
+            let obj = getTotalDaysOfYear(new Date().getFullYear());
+            resolve(obj);
+        });
     }
 
     return(

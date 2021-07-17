@@ -1,5 +1,5 @@
-import React, {useState, useContext, useEffect, useCallback} from 'react';
-import { StyleSheet, Text, View, TextInput, StatusBar, Image, TouchableWithoutFeedback, FlatList, Keyboard } from 'react-native';
+import React, {useState, useContext, useCallback} from 'react';
+import { StyleSheet, Text, View, TextInput, Image, TouchableWithoutFeedback, FlatList, Keyboard } from 'react-native';
 import { GoogleSignin, } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {AuthContext} from "./utils/context_auth";
@@ -9,7 +9,13 @@ import { getWeek } from './utils/get_date';
 import { Ionicons, } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
 
+import { getTotalPagesInYear } from './utils/get_date';
+
+import { useNavigation } from '@react-navigation/native';
+
 export default function Profile(){
+
+    const navigation = useNavigation();
 
     const {setLogin} = useContext(AuthContext);
 
@@ -54,14 +60,22 @@ export default function Profile(){
                 setTotalWishlist(wishlistArr.length);
 
                 const week = getWeek(new Date(Date.now()));
-
+                
                 for (const key in readingData) {
-                    
+                    // console.log(readingData[key]);
                     if (parseInt(key) === week) {
                         setReadingWeek(readingData[key])
                     }
                 }
                 setPages(documentSnapshot.data().pageGoal);
+
+                const years = documentSnapshot.data().years;
+
+                let totalPagesRead = getTotalPagesInYear(Object.values(years));
+
+                firestore().collection("users").doc(user.uid).update({
+                    [`years.${currentYear}.pagesRead`]: totalPagesRead,
+                });
             }
         });
     }
@@ -125,7 +139,6 @@ export default function Profile(){
                             <FlatList horizontal={true} data={readingWeek} renderItem={(renderItem, index) => {
                                 const days = ["sun", "mon", "tue", "wed", "thr", "fri", "sat"];
                                 const percentage = Math.floor((renderItem.item/pages)*100);
-                                
                                 return (
                                     <View style={{alignItems: "center", marginLeft: 8, marginRight: 8}}>
                                         <View style={styles.bar}>
@@ -138,7 +151,10 @@ export default function Profile(){
                         </View>
                     </View>
                 </View>
-                <View style={{flexDirection: "row", alignItems: "center", marginTop: 20}}>
+                <View>
+                    <Text onPress={() => navigation.navigate({name: "Stats"})} style={{color: "black", fontSize: 18, marginTop: 10, alignSelf: "flex-end"}}>see more stats</Text>
+                </View>
+                <View style={{flexDirection: "row", alignItems: "center", alignSelf: "center", marginTop: 20}}>
                     <Text style={{color: "black", fontSize: 16}}>Set reading goal per day: </Text>
                     <TextInput value={pages} onChangeText={text => setNewPageGoal(text)} style={{borderBottomWidth: 1, padding: 0, marginLeft: 5, marginRight: 5}} keyboardType="numeric"/>
                     <Text style={{color: "black", fontSize: 16}}>pages</Text>
