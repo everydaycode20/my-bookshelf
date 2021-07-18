@@ -21,6 +21,7 @@ import StackFavorite from "./components/stack_Favorite";
 import StackBookshelf from "./components/stack_Bookshelf";
 import StackProfile from './components/stack_profile';
 import SigninEmail from './components/signin_email';
+import Connected from './components/not-connected';
 
 export default function App() {
 
@@ -32,27 +33,47 @@ export default function App() {
 
   const [newBook, setNewBook] = useState({main: "", bookshelf: "all", favorite: "", profile: ""});
 
+  const [isConnected, setIsConnected] = useState(true);
+
+  const [refresh, setRefresh] = useState("");
+
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      console.log("Connection type", state.type);
-      console.log("Is connected?", state.isConnected);
-    });
+    
     const ac = new AbortController();
+    let subscriber = null;
 
-    GoogleSignin.configure({
-      scopes: ["email"],
-      webClientId: '99853162195-ptu9icemdkvmp9lq9e74kifj5ja29eds.apps.googleusercontent.com',
+    const unsubscribe = NetInfo.addEventListener(state => {
+      
+      if (!state.isConnected) {
+        setIsConnected(false);
+      }
+      else{
+        setIsConnected(true);
+        GoogleSignin.configure({
+          scopes: ["email"],
+          webClientId: '99853162195-ptu9icemdkvmp9lq9e74kifj5ja29eds.apps.googleusercontent.com',
+        });
+        subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+      }
     });
+    
+    
 
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-
+    // if (isConnected) {
+    //     GoogleSignin.configure({
+    //       scopes: ["email"],
+    //       webClientId: '99853162195-ptu9icemdkvmp9lq9e74kifj5ja29eds.apps.googleusercontent.com',
+    //   });
+    //   subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    // }
+    
     return () => {
       unsubscribe();
       subscriber;
       ac.abort();
     };
     
-  }, []);
+  }, [refresh]);
 
   function onAuthStateChanged(user) {
     setUser(user)
@@ -83,7 +104,11 @@ export default function App() {
 
   const StackLogin = createStackNavigator();
 
-  if (login === false && login !== null) {
+  if (!isConnected) {
+    return <Connected setRefresh={setRefresh}/>
+  }
+
+  if (login === false && login !== null && isConnected === true) {
     return(
       <View style={{flex: 1}}>
       <StatusBar barStyle = "dark-content" backgroundColor="white"/>
@@ -98,7 +123,7 @@ export default function App() {
     )
   }
 
-  if (login === true && login !== null) {
+  if (login === true && login !== null && isConnected === true) {
     return (
       <NewBookContext.Provider value={{newBook, setNewBook}}>
       <AuthContext.Provider value={{login, setLogin}}>
