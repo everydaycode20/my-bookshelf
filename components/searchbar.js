@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, TextInput, StatusBar, Image, FlatList, Dimensions } from 'react-native';
 import SearchResult from "./search_results";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function SearchBar({tab}){
 
@@ -13,9 +14,11 @@ export default function SearchBar({tab}){
     const [showResults, setShowResults] = useState(false);
 
     function textInput(text) {
-        if (text !== "") {
+        
+        if (text.length > 0) {
             setText(text);
             search(text);
+            setShowResults(true);
         }
         else{
             setShowResults(false);
@@ -25,11 +28,15 @@ export default function SearchBar({tab}){
         
     }
 
+    function cleanInput() {
+        setText("");
+        setShowResults(false)
+    }
+
     function search(text) {
         fetch(`https://www.googleapis.com/books/v1/volumes?q=${text}&maxResults=5&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/language, id)`).then(res => res.json()).then(data => {
 
             setResults(data.items);
-            setShowResults(true);
             
         });
 
@@ -39,9 +46,10 @@ export default function SearchBar({tab}){
         <View style={[styles.container, {width: screenWidth}]}>
             <View style={styles.searchBar}>
                 <TextInput style={styles.input} value={text} placeholder="search by author or title" onChangeText={text => textInput(text)} />
+                {showResults ? <Ionicons style={{width: "10%"}} onPress={() => cleanInput()} name="close" size={24} color="#F54748"/> : <View style={{width: "10%"}}/>}
                 <Image style={styles.image} source={require("../assets/search_icon.png")}/>
             </View>
-            {showResults === true ? <SearchResult results={results} tab={tab} setText={setText} setShowResults={setShowResults}/> : null}
+            {showResults ? <SearchResult results={results} tab={tab} setText={setText} setShowResults={setShowResults}/> : null}
         </View>
     )
 }
@@ -64,7 +72,7 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 18,
-        width: "90%"
+        width: "80%"
     },
     image: {
         width: "10%",

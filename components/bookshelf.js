@@ -1,11 +1,10 @@
-import React, {useEffect, useContext, useState, useCallback} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ScrollView, RefreshControl, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ModalError from './modal_error';
 
 import {UserContext} from "./utils/user_context";
 import {BookContext} from "./utils/context_book";
-import { NewBookContext } from './utils/context_newBook';
 
 import firestore from "@react-native-firebase/firestore";
 
