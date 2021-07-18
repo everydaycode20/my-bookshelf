@@ -3,9 +3,9 @@ import { View, Text, FlatList, StyleSheet, TouchableWithoutFeedback, ScrollView}
 import { Ionicons } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 
-import {UserContext} from "./utils/user_context";
+import {UserContext} from "../utils/user_context";
 
-import { getWeeksArranged } from './utils/get_date';
+import { getWeeksArranged } from '../utils/get_date';
 
 import firestore from "@react-native-firebase/firestore";
 
@@ -70,8 +70,8 @@ export default function Stats() {
         });
     };
 
-    const Item = ({item}) => {
-
+    const Item = ({item, index}) => {
+        
         let squareColor = "";
         let borderColor = "";
         let percentageRead = (item / pages) * 100;
@@ -102,12 +102,16 @@ export default function Stats() {
         }
 
         return <View >
-            <View style={{  width: 15, height: 15, backgroundColor: squareColor, marginLeft: 1, marginRight: 1, marginTop: 1, marginBottom: 1, borderRadius: 2, borderColor: borderColor, borderWidth: 1, zIndex: 100}}></View>
-        </View>
+                    <View style={{  width: 15, height: 15, backgroundColor: squareColor, marginLeft: 1, marginRight: 1, marginTop: 1, marginBottom: 1, borderRadius: 2, borderColor: borderColor, borderWidth: 1, zIndex: 100}}></View>
+                </View>
     }
 
-    const renderItem = ({item}) => (
-        <Item item={item}/>
+    function getDay(index) {
+        console.log(index);
+    }
+
+    const renderItem = ({item, index}) => (
+        <Item item={item} index={index}/>
     )
 
     return(

@@ -1,9 +1,8 @@
 import React, {useEffect, useContext, useState} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, RefreshControl, ScrollView } from 'react-native';
-import {UserContext} from "./utils/user_context";
-import {BookContext} from "./utils/context_book";
-import { NewBookContext } from './utils/context_newBook';
-import ModalError from './modal_error';
+import {UserContext} from "../utils/user_context";
+import {BookContext} from "../utils/context_book";
+import ModalError from '../modal_error';
 
 import firestore from "@react-native-firebase/firestore";
 import { useNavigation } from '@react-navigation/native';
@@ -84,7 +83,7 @@ export default function Favorite({refreshing, isLoading, favorite, onRefresh, ro
                         )
                     }} keyExtractor={(item, index) => {return index.toString()}}/>}
                     {isLoading && 
-                        <Image style={{width: 100, height: 50, resizeMode: "contain", alignSelf: "center"}} source={require("../assets/loading_gif.gif")}/>}
+                        <Image style={{width: 100, height: 50, resizeMode: "contain", alignSelf: "center"}} source={require("../../assets/loading_gif.gif")}/>}
                     {favorite.length === 0 && !isLoading  && 
                     <ScrollView style={{height: "100%"}} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["#F54748"]} />} >
                         <Text style={{fontSize: 18}}>You don't have any favorite book</Text>
@@ -101,7 +100,7 @@ export default function Favorite({refreshing, isLoading, favorite, onRefresh, ro
 const styles = StyleSheet.create({
     container: {
         width: "80%",
-        
+        flex: 1
     },
     containerBook: {
         paddingBottom: 20,

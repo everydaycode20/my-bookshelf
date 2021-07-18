@@ -13,13 +13,12 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-goo
 import auth from '@react-native-firebase/auth';
 
 import Login from "./components/login";
-import Profile from "./components/profile";
 import SignupEmail from './components/signup_email';
 
-import StackMain from "./components/stack_Main";
-import StackFavorite from "./components/stack_Favorite";
-import StackBookshelf from "./components/stack_Bookshelf";
-import StackProfile from './components/stack_profile';
+import StackMain from "./components/main/stack_Main";
+import StackFavorite from "./components/favorite/stack_Favorite";
+import StackBookshelf from "./components/bookshelf/stack_Bookshelf";
+import StackProfile from './components/profile/stack_profile';
 import SigninEmail from './components/signin_email';
 import Connected from './components/not-connected';
 

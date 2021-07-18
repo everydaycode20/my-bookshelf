@@ -1,13 +1,13 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { View, } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {BookContext} from "./utils/context_book";
-import {UserContext} from "./utils/user_context";
-import { getWeek, getTotalDaysOfYear, getTotalPagesInYear } from './utils/get_date';
+import {BookContext} from "../utils/context_book";
+import {UserContext} from "../utils/user_context";
+import { getWeek, getTotalDaysOfYear } from '../utils/get_date';
 
-import Searchbar from "./searchbar";
+import Searchbar from "../searchbar";
 import Main from "./main";
-import Book from "./book";
+import Book from "../book";
 
 import firestore from "@react-native-firebase/firestore";
 
@@ -42,6 +42,7 @@ function CompMain({route}) {
     });
 
     function getUserData() {
+        getTotalDaysOfYear(2019);
         const currentYear = new Date(Date.now()).getFullYear();
 
         const week = getWeek(new Date(Date.now()));
@@ -84,7 +85,7 @@ function CompMain({route}) {
                             });
                         })
                     }
-
+                    
                     const years = documentSnapshot.data().years;
                     
                     for (const key in years) {

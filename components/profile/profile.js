@@ -2,14 +2,14 @@ import React, {useState, useContext, useCallback} from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableWithoutFeedback, FlatList, Keyboard } from 'react-native';
 import { GoogleSignin, } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import {AuthContext} from "./utils/context_auth";
-import {UserContext} from "./utils/user_context";
+import {AuthContext} from "../utils/context_auth";
+import {UserContext} from "../utils/user_context";
 import firestore from "@react-native-firebase/firestore";
-import { getWeek } from './utils/get_date';
+import { getWeek } from '../utils/get_date';
 import { Ionicons, } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
 
-import { getTotalPagesInYear } from './utils/get_date';
+import { getTotalPagesInYear } from '../utils/get_date';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -34,6 +34,7 @@ export default function Profile(){
     const [showIcon, setShowIcon] = useState(false);
 
     useFocusEffect(
+        
         useCallback(() => {
             getProgress();
         }, [])
@@ -70,12 +71,16 @@ export default function Profile(){
                 setPages(documentSnapshot.data().pageGoal);
 
                 const years = documentSnapshot.data().years;
-
-                let totalPagesRead = getTotalPagesInYear(Object.values(years));
-
-                firestore().collection("users").doc(user.uid).update({
-                    [`years.${currentYear}.pagesRead`]: totalPagesRead,
-                });
+                
+                let totalPagesRead = getTotalPagesInYear(years);
+                
+                for (const key in totalPagesRead) {
+                    
+                    firestore().collection("users").doc(user.uid).update({
+                        [`years.${key}.pagesRead`]: totalPagesRead[key],
+                    });
+                }
+                
             }
         });
     }

@@ -2,13 +2,13 @@ import React, {useState, useContext, useEffect} from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {BookContext} from "./utils/context_book";
+import {BookContext} from "../utils/context_book";
 import { useFocusEffect } from '@react-navigation/native';
-import {UserContext} from "./utils/user_context";
+import {UserContext} from "../utils/user_context";
 
-import Searchbar from "./searchbar";
+import Searchbar from "../searchbar";
 import Favorite from "./favorite";
-import Book from "./book";
+import Book from "../book";
 
 import firestore from "@react-native-firebase/firestore";
 

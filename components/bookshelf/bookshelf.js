@@ -1,10 +1,10 @@
 import React, {useEffect, useContext, useState} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ScrollView, RefreshControl, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ModalError from './modal_error';
+import ModalError from '../modal_error';
 
-import {UserContext} from "./utils/user_context";
-import {BookContext} from "./utils/context_book";
+import {UserContext} from "../utils/user_context";
+import {BookContext} from "../utils/context_book";
 
 import firestore from "@react-native-firebase/firestore";
 
@@ -91,7 +91,7 @@ export default function BookShelf({read, route, routeId, reading, wishlist, isLo
                         )
                     }}/>}
                     {isLoading && 
-                        <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../assets/loading_gif.gif")}/>
+                        <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../../assets/loading_gif.gif")}/>
                     }
                     {read.length === 0 && !isLoading && <View style={{height: 100}}>
                         <Text style={{fontSize: 18}}>There are no books in your read list</Text>
@@ -114,7 +114,7 @@ export default function BookShelf({read, route, routeId, reading, wishlist, isLo
                         )
                     }}/>}
                     {isLoading && 
-                        <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../assets/loading_gif.gif")}/>
+                        <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../../assets/loading_gif.gif")}/>
                     }
                     {reading.length === 0 && !isLoading && <View style={{height: 100}}>
                         <Text style={{fontSize: 18}}>There are no books in your read list</Text>
@@ -137,7 +137,7 @@ export default function BookShelf({read, route, routeId, reading, wishlist, isLo
                         )
                     }}/>}
                     {isLoading && 
-                        <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../assets/loading_gif.gif")}/>
+                        <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../../assets/loading_gif.gif")}/>
                     }
                     {wishlist.length === 0 && !isLoading && <View style={{height: 100}}>
                         <Text style={{fontSize: 18}}>There are no books in your read list</Text>

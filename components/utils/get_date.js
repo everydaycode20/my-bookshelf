@@ -117,7 +117,7 @@ export const getTotalDaysOfYear = (year) => {
         }
         
     }
-
+    
     return objWeek;
 }
 
@@ -130,27 +130,31 @@ export const getTotalDaysOfYear = (year) => {
  */
 
 export const getTotalPagesInYear = (weeks) => {
+
+    let a = weeks;
     
-    let arrWeeks = Object.values(weeks[0]);
+    let obj = {};
 
-    let pageCount = 0;
-
-    for (let i = 0; i < arrWeeks.length; i++) {
+    for (const key in a) {
         
-        // console.log(arrWeeks[i]);
-
-        let tempArr = arrWeeks[i];
-
-        for (let j = 0; j < tempArr.length; j++) {
-
-            if (tempArr[j] !== "x" && tempArr[j] > 0) {
-                pageCount += tempArr[j];
+        let pageCount = 0;
+        let tempArr = Object.values(a[key]);
+        
+        for (let i = 0; i < tempArr.length; i++) {
+            
+            let temp = tempArr[i];
+            for (let j = 0; j < temp.length; j++) {
+                
+                if (temp[j] !== "x" && temp[j] > 0) {
+                    pageCount += temp[j];
+                }
             }
         }
+        obj[key] = pageCount;
+        pageCount = 0;
     }
-    
-    return pageCount;
 
+    return obj;
 }
 
 /**

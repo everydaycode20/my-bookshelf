@@ -1,9 +1,9 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { View, } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {BookContext} from "./utils/context_book";
+import {BookContext} from "../utils/context_book";
 import { useFocusEffect } from '@react-navigation/native';
-import { NewBookContext } from './utils/context_newBook';
+import { NewBookContext } from '../utils/context_newBook';
 import firestore from "@react-native-firebase/firestore";
 
 import Profile from './profile';

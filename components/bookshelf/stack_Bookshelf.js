@@ -1,16 +1,14 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { View, } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {BookContext} from "./utils/context_book";
-import { useFocusEffect } from '@react-navigation/native';
-import { NewBookContext } from './utils/context_newBook';
+import {BookContext} from "../utils/context_book";
 import firestore from "@react-native-firebase/firestore";
 
-import Searchbar from "./searchbar";
+import Searchbar from "../searchbar";
 import BookShelf from './bookshelf';
-import Book from './book';
+import Book from '../book';
 
-import {UserContext} from "./utils/user_context";
+import {UserContext} from "../utils/user_context";
 
 function CompBookshelf({route}) {
 
