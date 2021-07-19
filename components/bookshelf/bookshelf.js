@@ -30,14 +30,15 @@ export default function BookShelf({read, route, routeId, reading, wishlist, isLo
             if (documentSnapshot.exists) {  
 
                 let objBooks = documentSnapshot.data().books;
-
+                
                 for (const key in objBooks) {
                     if (key === "read") {
                         let newObj = objBooks[key];
+                        
                         for (const key in newObj) {
                             if (id === key) {
-                                const {authors, image, pageCount, title, description, pagesRead, categories, id, stat, isFavorite} = newObj[key];
-                                let objData = {"authors": authors, "image": image, "pageCount": pageCount, "title": title, "description": description, status: "new", "pagesRead": pagesRead, "categories": categories, current: "Bookshelf", "stat": stat, "isFavorite": isFavorite};
+                                const {authors, image, pageCount, title, description, pagesRead, categories, id, stat, isFavorite, score} = newObj[key];
+                                let objData = {"authors": authors, "image": image, "pageCount": pageCount, "title": title, "description": description, status: "new", "pagesRead": pagesRead, "categories": categories, current: "Bookshelf", "stat": stat, "isFavorite": isFavorite, "score": score};
                                 setId(id),
                                 navigation.navigate("Book", {data: objData});
                             }

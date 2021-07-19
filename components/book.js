@@ -4,13 +4,10 @@ import {BookContext} from "./utils/context_book";
 import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import {UserContext} from "./utils/user_context";
-import { useNavigation } from '@react-navigation/native';
 import { NewBookContext } from './utils/context_newBook';
 import { getWeek, getDay } from './utils/get_date';
 
 export default function Book({route, navigation}) {
-    
-    const nav = useNavigation();
 
     const {user} = useContext(UserContext);
 
@@ -21,6 +18,8 @@ export default function Book({route, navigation}) {
     const {id} = useContext(BookContext);
     
     const listOpts = [{id: 0, opt: 'Read'}, {id: 1, opt: "Currently reading"}, {id: 2, opt: "Wishlist"}];
+
+    const [score, setScore] = useState([{score: 1, "status": false, id: 1}, {score: 2, "status": false, id: 2}, {score: 3, "status": false, id: 3}, {score: 4, "status": false, id: 4}, {score: 5, "status": false, id: 5}]);
 
     const [idBtn, setIdBtn] = useState(4);
 
@@ -38,6 +37,21 @@ export default function Book({route, navigation}) {
 
     useEffect(() => {
         setIdBtn(data.stat);
+        
+        setScore(prev => {
+
+            let object = prev;
+
+            object.forEach(o => {
+                if (o.id <= data.score) {
+                    o.status = true;
+                }
+                else{
+                    o.status = false;
+                }
+            })
+            return [...prev];
+        });
         setPages(data.pagesRead);
         if (data.isFavorite) {
             setFav(true);
@@ -239,11 +253,35 @@ export default function Book({route, navigation}) {
     }
 
     function Back() {
-        // nav.goBack();
+        
         if (isNewBook) {
             setNewBook(Date.now());
         }
         navigation.navigate({name: data.current,});
+    }
+
+    function makeScore(index) {
+        
+        const {title} = data;
+
+        firestore().collection("users").doc(user.uid).update({
+            [`books.read.${title}.score`]: index,
+        })
+
+        setScore(prev => {
+
+            let object = prev;
+
+            object.forEach(o => {
+                if (o.id <= index) {
+                    o.status = true;
+                }
+                else{
+                    o.status = false;
+                }
+            })
+            return [...prev];
+        });
     }
 
     return (
@@ -291,6 +329,12 @@ export default function Book({route, navigation}) {
                                     {wrongPageCount && <Text style={{color: "#e63946", fontSize: 15}}>Can't be greater than {pageCount}</Text>}
                                 </View>
                             }
+                            {idBtn === 0 && 
+                            <View style={{marginTop: 20}}>
+                                <FlatList horizontal={true} data={score} renderItem={({item, index}) => {
+                                    return <FontAwesome name="star" size={24} color={item.status === true ? "#F54748" : "#343F56"} onPress={() => makeScore(item.score)} />
+                                }} keyExtractor={(item, index) => {return index.toString()}}/>
+                            </View>}
                             {idBtn === 0 || idBtn === 1 ? 
                             <View style={{flexDirection: "row", marginTop: 40}}>
                                 <Text style={{color: "#343F56", fontSize: 20}}>Mark as favorite</Text>

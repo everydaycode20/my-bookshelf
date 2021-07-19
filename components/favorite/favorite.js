@@ -36,8 +36,8 @@ export default function Favorite({refreshing, isLoading, favorite, onRefresh, ro
                         let newObj = objBooks[key];
                         for (const key in newObj) {
                             if (id === key) {
-                                const {authors, image, pageCount, title, description, pagesRead, categories, id, stat, isFavorite} = newObj[key];
-                                let objData = {"authors": authors, "image": image, "pageCount": pageCount, "title": title, "description": description, status: "new", "pagesRead": pagesRead, "categories": categories, current: "Favorite", "stat": stat, "isFavorite": isFavorite};
+                                const {authors, image, pageCount, title, description, pagesRead, categories, id, stat, isFavorite, score} = newObj[key];
+                                let objData = {"authors": authors, "image": image, "pageCount": pageCount, "title": title, "description": description, status: "new", "pagesRead": pagesRead, "categories": categories, current: "Favorite", "stat": stat, "isFavorite": isFavorite, "score": score};
                                 setId(id);
                                 navigation.navigate("Book", {data: objData});
                             }
