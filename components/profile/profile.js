@@ -63,7 +63,7 @@ export default function Profile(){
                 const week = getWeek(new Date(Date.now()));
                 
                 for (const key in readingData) {
-                    // console.log(readingData[key]);
+                    
                     if (parseInt(key) === week) {
                         setReadingWeek(readingData[key])
                     }
