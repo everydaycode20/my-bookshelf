@@ -164,7 +164,7 @@ export const getTotalPagesInYear = (weeks) => {
  * @returns Array
  */
 
-export const getWeeksArranged = (object) => {
+export const getWeeksArranged = (object, year) => {
     
     const valuesWeeks = Object.values(object);
 
@@ -179,5 +179,5 @@ export const getWeeksArranged = (object) => {
     }
 
 
-    return mergedArray;
+    return {[year]: mergedArray};
 }
