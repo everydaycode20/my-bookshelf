@@ -5,9 +5,9 @@ import {BookContext} from "../utils/context_book";
 import {UserContext} from "../utils/user_context";
 import { getWeek, getTotalDaysOfYear } from '../utils/get_date';
 
-import Searchbar from "../searchbar";
+import Searchbar from "../searchbar/searchbar";
 import Main from "./main";
-import Book from "../book";
+import Book from "../book/book";
 
 import firestore from "@react-native-firebase/firestore";
 
@@ -58,7 +58,7 @@ function CompMain({route}) {
                     const arr = [];
                     
                     const obj = documentSnapshot.data().books.currentlyReading;
-
+                    
                     const objRead = documentSnapshot.data().books.read;
                     const suggestionsBooks = documentSnapshot.data().suggestions.categories;
 

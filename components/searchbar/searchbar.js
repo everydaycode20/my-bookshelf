@@ -47,7 +47,7 @@ export default function SearchBar({tab}){
             <View style={styles.searchBar}>
                 <TextInput style={styles.input} value={text} placeholder="search by author or title" onChangeText={text => textInput(text)} />
                 {showResults ? <Ionicons style={{width: "10%"}} onPress={() => cleanInput()} name="close" size={24} color="#F54748"/> : <View style={{width: "10%"}}/>}
-                <Image style={styles.image} source={require("../assets/search_icon.png")}/>
+                <Image style={styles.image} source={require("../../assets/search_icon.png")}/>
             </View>
             {showResults ? <SearchResult results={results} tab={tab} setText={setText} setShowResults={setShowResults}/> : null}
         </View>

@@ -90,7 +90,7 @@ export default function StatsComp({readingData, yearsList, isDataFetched, year, 
 
             {readingData && isDataFetched ? <View style={{ width: "80%",  flexDirection: "row", }}>
             
-            <View style={{ height: "77%", marginRight: 4, marginTop: 35}}>
+            <View style={{ height: "84%", marginRight: 4, marginTop: 18}}>
                 <Text style={{fontSize: 13, color: "black", includeFontPadding: false, flex: 1}}>Su</Text>
                 <Text style={{fontSize: 13, color: "black", includeFontPadding: false}}></Text>
                 <Text style={{fontSize: 13, color: "black", includeFontPadding: false, flex: 1}}>Tu</Text>

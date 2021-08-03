@@ -1,7 +1,7 @@
 import React, {useContext,} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {BookContext} from "./utils/context_book";
+import {BookContext} from "../utils/context_book";
 
 export default function SearchResult({results, setShowResults, tab, setText}) {
     

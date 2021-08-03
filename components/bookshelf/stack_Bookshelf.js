@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {BookContext} from "../utils/context_book";
 import firestore from "@react-native-firebase/firestore";
 
-import Searchbar from "../searchbar";
+import Searchbar from "../searchbar/searchbar";
 import BookShelf from './bookshelf';
-import Book from '../book';
+import Book from '../book/book';
 
 import {UserContext} from "../utils/user_context";
 
