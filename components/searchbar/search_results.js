@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import {BookContext} from "../utils/context_book";
 
-export default function SearchResult({results, setShowResults, tab, setText}) {
+export default function SearchResult({results, setShowResults, tab}) {
     
     const navigation = useNavigation();
 
@@ -20,7 +20,6 @@ export default function SearchResult({results, setShowResults, tab, setText}) {
         
         setId(id);
         setShowResults(false);
-        setText("");
         fetch(`https://www.googleapis.com/books/v1/volumes/${id}`).then(res => res.json()).then(data => {
             const {authors, imageLinks, pageCount, title, categories, description} = data.volumeInfo;
 

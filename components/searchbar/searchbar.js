@@ -1,17 +1,39 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, StatusBar, Image, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, View, TextInput, Image, Dimensions } from 'react-native';
 import SearchResult from "./search_results";
 import { Ionicons } from '@expo/vector-icons';
+
+import useDebounce from '../utils/useDebounce';
 
 export default function SearchBar({tab}){
 
     const screenWidth = Math.ceil(Dimensions.get("window").width);
 
-    const [text, setText] = useState("");
-
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState(null);
 
     const [showResults, setShowResults] = useState(false);
+
+    const [search, setSearch] = useState("");
+
+    const debouncedSearchTerm = useDebounce(search, 400);
+
+    useEffect(() => {
+        
+        if (debouncedSearchTerm && debouncedSearchTerm.length >= 4) {
+            query(debouncedSearchTerm).then(results => {
+                setResults(results);
+                setShowResults(true);
+            }).catch(() => {
+                setResults(null);
+                setShowResults(false);
+            });
+        }
+        else{
+            setResults(null);
+            setShowResults(false);
+        }
+
+    }, [debouncedSearchTerm]);
 
     function textInput(text) {
         
@@ -29,27 +51,26 @@ export default function SearchBar({tab}){
     }
 
     function cleanInput() {
-        setText("");
+        setSearch(null);
         setShowResults(false)
     }
 
-    function search(text) {
-        fetch(`https://www.googleapis.com/books/v1/volumes?q=${text}&maxResults=5&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/language, id)`).then(res => res.json()).then(data => {
+    async function query(text) {
+        const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${text}&maxResults=5&fields=items(volumeInfo/title,volumeInfo/authors,volumeInfo/language, id)`);
 
-            setResults(data.items);
-            
-        });
+        const data = await res.json();
 
+        return data.items;
     }
 
     return (
         <View style={[styles.container, {width: screenWidth}]}>
             <View style={styles.searchBar}>
-                <TextInput style={styles.input} value={text} placeholder="search by author or title" onChangeText={text => textInput(text)} />
+                <TextInput style={styles.input} value={search} placeholder="search by author or title" onChangeText={text => setSearch(text)} />
                 {showResults ? <Ionicons style={{width: "10%"}} onPress={() => cleanInput()} name="close" size={24} color="#F54748"/> : <View style={{width: "10%"}}/>}
                 <Image style={styles.image} source={require("../../assets/search_icon.png")}/>
             </View>
-            {showResults ? <SearchResult results={results} tab={tab} setText={setText} setShowResults={setShowResults}/> : null}
+            {showResults ? <SearchResult results={results} tab={tab}  setShowResults={setShowResults}/> : null}
         </View>
     )
 }

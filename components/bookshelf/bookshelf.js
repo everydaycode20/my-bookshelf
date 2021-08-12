@@ -1,5 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ScrollView, RefreshControl, } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, RefreshControl, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ModalError from '../modal_error';
 
@@ -8,6 +8,7 @@ import {BookContext} from "../utils/context_book";
 
 import firestore from "@react-native-firebase/firestore";
 
+import BookItem from '../book_item/book_item';
 
 export default function BookShelf({read, route, routeId, reading, wishlist, isLoading, onRefresh, refreshing}) {
 
@@ -79,18 +80,7 @@ export default function BookShelf({read, route, routeId, reading, wishlist, isLo
                 <View style={styles.containerBook}>
                     <View style={{flexDirection: "column", width: "100%"}}>
                         <Text style={{color: "black", fontSize: 20, marginBottom: 20, }}>Books I've read</Text>
-                    {!isLoading && <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={read} renderItem={(renderItem, item) => {
-                        const {image} = renderItem.item;
-                        return (
-                                <View style={{marginRight: 30}}>
-                                    <View>
-                                        <TouchableOpacity onPress={() => getBook(renderItem.item.title)}>
-                                            <Image style={{width: 100, height: 150, resizeMode: "contain", borderRadius: 5,}} source={{uri:image}}/>
-                                        </TouchableOpacity>
-                                </View>
-                            </View>
-                        )
-                    }}/>}
+                    {!isLoading && <BookItem data={read} getBook={getBook}/>}
                     {isLoading && 
                         <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../../assets/loading_gif.gif")}/>
                     }
@@ -102,18 +92,7 @@ export default function BookShelf({read, route, routeId, reading, wishlist, isLo
                 <View style={styles.containerBook}>
                     <View style={{flexDirection: "column", width: "100%"}}>
                         <Text style={{color: "black", fontSize: 20, marginBottom: 20}}>Currently reading</Text>
-                    {!isLoading && <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={reading} renderItem={(renderItem, item) => {
-                        const {image} = renderItem.item;
-                        return (
-                                <View style={{marginRight: 30}}>
-                                    <View>
-                                        <TouchableOpacity onPress={() => getBook(renderItem.item.title)}>
-                                            <Image style={{width: 100, height: 150, resizeMode: "contain", borderRadius: 5,}} source={{uri:image}}/>
-                                        </TouchableOpacity>
-                                </View>
-                            </View>
-                        )
-                    }}/>}
+                    {!isLoading && <BookItem data={reading} getBook={getBook}/>}
                     {isLoading && 
                         <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../../assets/loading_gif.gif")}/>
                     }
@@ -125,18 +104,7 @@ export default function BookShelf({read, route, routeId, reading, wishlist, isLo
                 <View style={styles.containerBook}>
                     <View style={{marginBottom: 20, flexDirection: "column", width: "100%"}}>
                         <Text style={{color: "black", fontSize: 20, marginBottom: 20}}>Wishlist</Text>
-                    {!isLoading && <FlatList showsHorizontalScrollIndicator={false} horizontal={true} data={wishlist} renderItem={(renderItem, item) => {
-                        const {image} = renderItem.item;
-                        return (
-                            <View style={{marginRight: 30}}>
-                                <View>
-                                    <TouchableOpacity onPress={() => getBook(renderItem.item.title)}>
-                                        <Image style={{width: 100, height: 150, resizeMode: "contain", borderRadius: 5,}} source={{uri:image}}/>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        )
-                    }}/>}
+                    {!isLoading && <BookItem data={wishlist} getBook={getBook}/>}
                     {isLoading && 
                         <Image style={{width: 100, height: 50, flex: 1, resizeMode: "contain", alignSelf: "center"}} source={require("../../assets/loading_gif.gif")}/>
                     }
