@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableWithoutFeedback, ScrollView, Animated, Easing} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome  } from '@expo/vector-icons';
 
 const AnimatedLinearGradientComp = Animated.createAnimatedComponent(LinearGradient);
 
@@ -73,7 +73,7 @@ export default function StatsComp({readingData, yearsList, isDataFetched, year, 
                 <Ionicons onPress={() => nav.goBack()} style={{marginBottom: 20}} name="arrow-back" size={35} color="black"/>
             </View>}
 
-            {yearsList && <View style={[styles.list,{flexDirection: "row"}]}>
+            {yearsList && <View style={[styles.list, {flexDirection: "row"}]}>
                 <FlatList horizontal={true} data={yearsList} renderItem={({item, index}) => {
                     
                     return(
@@ -132,9 +132,10 @@ export default function StatsComp({readingData, yearsList, isDataFetched, year, 
             {readingData && <View style={styles.containerText}>
                 {new Date(Date.now()).getFullYear().toString() === selectedYear.toString() ? <Text style={{color: "black", fontSize: 16}}>You have read {pagesReadInYear[year]} pages this year</Text> : <Text style={{color: "black", fontSize: 16}}>You read {pagesReadInYear[year]} pages in {selectedYear}</Text>}
             </View>}
-            <View>
-                <Text>Average score: {score.score / score.length}</Text>
-            </View>
+            {readingData &&  <View style={{ width: "100%", marginTop: 10, flexDirection: "row", alignItems: "center", borderTopWidth: 0.5, borderTopColor: "black", }}>
+                <FontAwesome name="star" size={16} color="black" style={{paddingLeft: 15, marginTop: 10}}/>
+                <Text style={{fontSize: 16, color: "black", marginLeft: 5, marginTop: 10}}>Average score: {score.score / score.length}</Text>
+            </View>}
         </View>
     )
 }

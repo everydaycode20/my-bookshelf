@@ -50,11 +50,11 @@ export default function Stats() {
                 for (const key in scoreBooksRead) {
                     
                     tempScore += scoreBooksRead[key].score;
-
+                    console.log(scoreBooksRead[key].score);
                 }
                 
                 let scoreLength = Object.keys(scoreBooksRead).length;
-                console.log(scoreLength);
+                
                 setScore(prev => ({...prev, score: tempScore, length: scoreLength}));
 
                 setSelectedYear(currentYear);
