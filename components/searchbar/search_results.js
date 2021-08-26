@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import {BookContext} from "../utils/context_book";
 
-export default function SearchResult({results, setShowResults, tab}) {
+export default function SearchResult({results, setShowResults, tab, setSearch}) {
     
     const navigation = useNavigation();
 
@@ -44,6 +44,7 @@ export default function SearchResult({results, setShowResults, tab}) {
             else{
                 let obj = {"authors": authors, "image": img.smallThumbnail.replace("http", "https") || img, "pageCount": page, "title": title, "description": description, "categories": category, current: tab};
                 navigation.navigate("Book", {data: obj});
+                setSearch("");
             }
             
 
@@ -105,6 +106,6 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingLeft: 20,
         paddingRight: 20,
-        marginTop: 5
+        // marginTop: 5,
     }
 });

@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { StyleSheet, Text, View, TextInput, Image, FlatList, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import {BookContext} from "../utils/context_book";
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import {UserContext} from "../utils/user_context";
@@ -37,6 +37,7 @@ export default function Book({route, navigation}) {
     const [showIcon, setShowIcon] = useState(false);
 
     useEffect(() => {
+        console.log("data");
         setIdBtn(data.stat);
         
         setScore(prev => {

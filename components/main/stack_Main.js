@@ -8,6 +8,7 @@ import { getWeek, getTotalDaysOfYear } from '../utils/get_date';
 import Searchbar from "../searchbar/searchbar";
 import Main from "./main";
 import Book from "../book/book";
+import Camera from '../camera/camera';
 
 import firestore from "@react-native-firebase/firestore";
 
@@ -175,6 +176,7 @@ export default function StackMain() {
             <StackMain.Navigator screenOptions={{headerShown: false}}>
                 <StackMain.Screen name="Main" component={CompMain}/>
                 <StackMain.Screen name="Book" component={Book}/>
+                <StackMain.Screen name="Camera" component={Camera}/>
             </StackMain.Navigator>
         </BookContext.Provider>
     )

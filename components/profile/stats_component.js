@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const AnimatedLinearGradientComp = Animated.createAnimatedComponent(LinearGradient);
 
-export default function StatsComp({readingData, yearsList, isDataFetched, year, colors, selectedYear, pagesReadInYear, pages, selectYear, nav}) {
+export default function StatsComp({readingData, yearsList, isDataFetched, year, colors, selectedYear, pagesReadInYear, pages, selectYear, nav, score}) {
     
     const Item = ({item, index}) => {
         
@@ -132,6 +132,9 @@ export default function StatsComp({readingData, yearsList, isDataFetched, year, 
             {readingData && <View style={styles.containerText}>
                 {new Date(Date.now()).getFullYear().toString() === selectedYear.toString() ? <Text style={{color: "black", fontSize: 16}}>You have read {pagesReadInYear[year]} pages this year</Text> : <Text style={{color: "black", fontSize: 16}}>You read {pagesReadInYear[year]} pages in {selectedYear}</Text>}
             </View>}
+            <View>
+                <Text>Average score: {score.score / score.length}</Text>
+            </View>
         </View>
     )
 }
