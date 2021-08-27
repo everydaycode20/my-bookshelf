@@ -33,6 +33,8 @@ export default function Stats() {
 
     const [score, setScore] = useState({score: 0, length: 0});
 
+    const [longestBook, setLongestBook] = useState({});
+
     useEffect(() => {
         
         firestore().collection("users").doc(user.uid).get().then(documentSnapshot => {
@@ -44,15 +46,23 @@ export default function Stats() {
                 const obj = documentSnapshot.data().years[currentYear];
 
                 const scoreBooksRead = documentSnapshot.data().books.read;
-
+                
                 let tempScore = 0;
+
+                let longestRead = {"title": "", "pages": 0};
 
                 for (const key in scoreBooksRead) {
                     
                     tempScore += scoreBooksRead[key].score;
-                    console.log(scoreBooksRead[key].score);
+                    
+                    if (parseInt(scoreBooksRead[key].pagesRead) > parseInt(longestRead.pages)) {
+                        longestRead.pages = scoreBooksRead[key].pagesRead;
+                        longestRead.title = scoreBooksRead[key].title;
+                    }
                 }
                 
+                setLongestBook(longestRead);
+
                 let scoreLength = Object.keys(scoreBooksRead).length;
                 
                 setScore(prev => ({...prev, score: tempScore, length: scoreLength}));
@@ -114,6 +124,6 @@ export default function Stats() {
         
     };
 
-    return <StatsComp colors={colors} readingData={readingData} yearsList={yearsList} isDataFetched={isDataFetched} year={year} colors={colors} selectedYear={selectedYear} pagesReadInYear={pagesReadInYear} pages={pages} selectYear={selectYear} nav={nav} score={score}/>
+    return <StatsComp colors={colors} readingData={readingData} yearsList={yearsList} isDataFetched={isDataFetched} year={year} colors={colors} selectedYear={selectedYear} pagesReadInYear={pagesReadInYear} pages={pages} selectYear={selectYear} nav={nav} score={score} longestBook={longestBook}/>
 
 }

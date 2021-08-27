@@ -1,11 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableWithoutFeedback, ScrollView, Animated, Easing} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { Ionicons, FontAwesome  } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 const AnimatedLinearGradientComp = Animated.createAnimatedComponent(LinearGradient);
 
-export default function StatsComp({readingData, yearsList, isDataFetched, year, colors, selectedYear, pagesReadInYear, pages, selectYear, nav, score}) {
+export default function StatsComp({readingData, yearsList, isDataFetched, year, colors, selectedYear, pagesReadInYear, pages, selectYear, nav, score, longestBook}) {
     
     const Item = ({item, index}) => {
         
@@ -133,9 +133,14 @@ export default function StatsComp({readingData, yearsList, isDataFetched, year, 
                 {new Date(Date.now()).getFullYear().toString() === selectedYear.toString() ? <Text style={{color: "black", fontSize: 16}}>You have read {pagesReadInYear[year]} pages this year</Text> : <Text style={{color: "black", fontSize: 16}}>You read {pagesReadInYear[year]} pages in {selectedYear}</Text>}
             </View>}
             {readingData &&  <View style={{ width: "100%", marginTop: 10, flexDirection: "row", alignItems: "center", borderTopWidth: 0.5, borderTopColor: "black", }}>
-                <FontAwesome name="star" size={16} color="black" style={{paddingLeft: 15, marginTop: 10}}/>
-                <Text style={{fontSize: 16, color: "black", marginLeft: 5, marginTop: 10}}>Average score: {score.score / score.length}</Text>
+                <FontAwesome name="star" size={17} color="#F54748" style={{paddingLeft: 15, marginTop: 10}}/>
+                <Text style={{fontSize: 16, color: "black", marginLeft: 5, marginTop: 10}}>Average score: {(score.score / score.length).toFixed(1)}</Text>
             </View>}
+            {readingData && 
+                <View style={{ width: "100%", marginTop: 10, flexDirection: "row", alignItems: "center",justifyContent: "flex-start" }}>
+                    <FontAwesome5 name="book" size={16} color="#F54748" style={{paddingLeft: 15, marginTop: 10}}/>
+                    <Text style={{fontSize: 16, color: "black", marginTop: 10, width: "80%", marginLeft: 5}}>Longest book: {longestBook.title}, {longestBook.pages} pages</Text>
+                </View>}
         </View>
     )
 }
